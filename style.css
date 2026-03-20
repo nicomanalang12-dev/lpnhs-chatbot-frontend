@@ -1,60 +1,64 @@
-/* RESET & BASE */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body, html {
-    height: 100%;
-    width: 100%;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    overflow: hidden; /* Prevents double scrolling */
-}
-
-/* MAIN LAYOUT */
-.app-container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-}
-
 /* --- SIDEBAR (LEFT) --- */
 .sidebar {
     width: 320px;
-    background-color: #0d4d2b; /* LPNHS Green */
+    background-color: #0d4d2b;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 40px 20px;
     
-    /* HORIZONTAL CENTERING */
+    /* 1. This centers the direct children (sidebar-top & sidebar-bottom) */
     align-items: center; 
     text-align: center;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-.school-logo {
-    width: 150px; /* Dominant centered logo */
-    height: auto;
+/* 2. New Rule: Ensure the top section takes full width and centers its content */
+.sidebar-top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers logo and text */
+}
+
+/* 3. New Rule: Center the logo container */
+.logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
+}
+
+.school-logo {
+    width: 160px; /* Slightly larger for better visibility */
+    height: auto;
     display: block;
     filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
 }
 
 .school-name {
-    font-size: 19px;
+    width: 100%; /* Important for text-align to work */
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 5px;
     line-height: 1.2;
+    text-align: center;
 }
 
 .school-branch {
-    font-size: 12px;
+    width: 100%;
+    font-size: 13px;
     opacity: 0.8;
     letter-spacing: 2px;
     margin-bottom: 30px;
+    text-align: center;
 }
 
-/* INFO CARDS */
-.info-list { width: 100%; }
+/* INFO CARDS (Keep these left-aligned inside their own box) */
+.info-list { 
+    width: 100%; 
+}
 
 .info-item {
     display: flex;
@@ -64,46 +68,13 @@ body, html {
     padding: 12px;
     border-radius: 12px;
     margin-bottom: 12px;
-    text-align: left; /* Keep internal text left-aligned */
+    text-align: left; /* Internal text stays left for readability */
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-.info-content label { display: block; font-size: 10px; font-weight: bold; color: #ffcc00; }
-.info-content p { font-size: 14px; margin: 0; }
-
-.sidebar-bottom { width: 100%; font-size: 11px; opacity: 0.6; }
-
-/* --- CHAT AREA (RIGHT) --- */
-.chat-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #f4f7f6;
+.sidebar-bottom { 
+    width: 100%; 
+    text-align: center; 
+    font-size: 11px; 
+    opacity: 0.6; 
 }
-
-.chat-box {
-    flex: 1;
-    padding: 25px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* BUBBLES */
-.message { max-width: 75%; padding: 12px 18px; border-radius: 18px; line-height: 1.5; font-size: 15px; }
-.bot { align-self: flex-start; background: white; color: black; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-bottom-left-radius: 2px; }
-.user { align-self: flex-end; background: #0d4d2b; color: white; border-bottom-right-radius: 2px; }
-
-/* INPUT SECTION */
-.input-section {
-    padding: 20px;
-    background: white;
-    border-top: 1px solid #ddd;
-    display: flex;
-    gap: 10px;
-}
-
-input { flex: 1; padding: 12px 20px; border: 1px solid #ccc; border-radius: 25px; outline: none; font-size: 16px; }
-button { background: #0d4d2b; color: white; border: none; padding: 0 25px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-button:hover { background: #0a3a21; }
