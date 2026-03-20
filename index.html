@@ -1,53 +1,44 @@
-<div class="app-container">
-    <aside class="sidebar">
-        <div class="sidebar-content">
-            <img src="https://i.ibb.co/p6V0z0P/lpnhs-logo.png" alt="LPNHS Logo" class="school-logo">
-            <h1 class="school-name">Las Piñas National High School</h1>
-            <h2 class="school-branch">— MAIN —</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPNHS Main Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-circle">L</div>
+                <h1>LPNHS</h1>
+                <h3>Main Assistant</h3>
+            </div>
             
-            <div class="divider"></div>
+            <div class="info-section">
+                <div class="info-item"><strong>CAMPUS:</strong> Main Building</div>
+                <div class="info-item"><strong>HOURS:</strong> 7am - 5pm</div>
+                <div class="info-item"><strong>LOC:</strong> Bamboo Organ Rd.</div>
+            </div>
 
-            <div class="info-card">
-                <span class="icon">📚</span>
-                <div class="info-text">
-                    <label>DEPARTMENT</label>
-                    <p>Student Support</p>
+            <div class="sidebar-footer">
+                <p>v1.0.2 - 2026</p>
+            </div>
+        </aside>
+
+        <main class="chat-main">
+            <div id="chat-box" class="chat-box">
+                <div class="message bot">
+                    Hello! Welcome to the LPNHS Main Assistant. How can I help you today?
                 </div>
             </div>
 
-            <div class="info-card">
-                <span class="icon">🏫</span>
-                <div class="info-text">
-                    <label>CAMPUS</label>
-                    <p>Main Building</p>
-                </div>
+            <div class="input-container">
+                <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off">
+                <button id="send-btn">Send</button>
             </div>
-
-            <div class="info-card">
-                <span class="icon">🕒</span>
-                <div class="info-text">
-                    <label>SUPPORT HOURS</label>
-                    <p>Mon–Fri, 7am–5pm</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="sidebar-footer">
-            <p>"Excellence in Service, Quality in Education"</p>
-            <p>© 2026 LPNHS-Main</p>
-        </div>
-    </aside>
-
-    <main class="chat-main">
-        <div id="chat-box" class="chat-box">
-            <div class="message bot">
-                Hello! I am the official AI assistant for Las Piñas National High School - Main. I'm here to help with enrollment, strands, or any campus questions.
-            </div>
-        </div>
-
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Type your message here..." autofocus>
-            <button id="send-btn">Send</button>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
