@@ -1,49 +1,79 @@
+/* RESET & BASE */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body, html {
     height: 100%;
+    width: 100%;
     font-family: 'Segoe UI', Tahoma, sans-serif;
-    overflow: hidden;
+    overflow: hidden; /* Prevents double scrolling */
 }
 
+/* MAIN LAYOUT */
 .app-container {
-    display: flex; /* Side-by-side layout */
+    display: flex;
     height: 100vh;
     width: 100vw;
 }
 
-/* --- SIDEBAR STYLES --- */
+/* --- SIDEBAR (LEFT) --- */
 .sidebar {
     width: 320px;
-    background-color: #0d4d2b;
+    background-color: #0d4d2b; /* LPNHS Green */
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 30px 20px;
+    padding: 40px 20px;
+    
+    /* HORIZONTAL CENTERING */
+    align-items: center; 
+    text-align: center;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-.school-logo { width: 100px; margin-bottom: 15px; border-radius: 50%; }
-.school-name { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
-.school-branch { font-size: 12px; opacity: 0.8; letter-spacing: 1px; margin-bottom: 30px; }
+.school-logo {
+    width: 150px; /* Dominant centered logo */
+    height: auto;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+}
+
+.school-name {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.school-branch {
+    font-size: 12px;
+    opacity: 0.8;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+/* INFO CARDS */
+.info-list { width: 100%; }
 
 .info-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 20px;
-    background: rgba(255,255,255,0.05);
-    padding: 10px;
-    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    text-align: left; /* Keep internal text left-aligned */
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-.info-item label { display: block; font-size: 10px; color: #ffcc00; font-weight: bold; }
-.info-item p { font-size: 14px; }
+.info-content label { display: block; font-size: 10px; font-weight: bold; color: #ffcc00; }
+.info-content p { font-size: 14px; margin: 0; }
 
-.sidebar-bottom { text-align: center; font-size: 11px; opacity: 0.6; }
+.sidebar-bottom { width: 100%; font-size: 11px; opacity: 0.6; }
 
-/* --- CHAT STYLES --- */
+/* --- CHAT AREA (RIGHT) --- */
 .chat-area {
     flex: 1;
     display: flex;
@@ -60,10 +90,12 @@ body, html {
     gap: 15px;
 }
 
-.message { max-width: 75%; padding: 12px 16px; border-radius: 15px; line-height: 1.5; }
-.bot { align-self: flex-start; background: white; color: black; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.user { align-self: flex-end; background: #0d4d2b; color: white; }
+/* BUBBLES */
+.message { max-width: 75%; padding: 12px 18px; border-radius: 18px; line-height: 1.5; font-size: 15px; }
+.bot { align-self: flex-start; background: white; color: black; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-bottom-left-radius: 2px; }
+.user { align-self: flex-end; background: #0d4d2b; color: white; border-bottom-right-radius: 2px; }
 
+/* INPUT SECTION */
 .input-section {
     padding: 20px;
     background: white;
@@ -72,5 +104,6 @@ body, html {
     gap: 10px;
 }
 
-input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 25px; outline: none; }
-button { background: #0d4d2b; color: white; border: none; padding: 0 25px; border-radius: 25px; cursor: pointer; font-weight: bold; }
+input { flex: 1; padding: 12px 20px; border: 1px solid #ccc; border-radius: 25px; outline: none; font-size: 16px; }
+button { background: #0d4d2b; color: white; border: none; padding: 0 25px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+button:hover { background: #0a3a21; }
