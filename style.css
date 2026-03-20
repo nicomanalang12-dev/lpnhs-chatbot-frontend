@@ -2,65 +2,75 @@
 
 body, html {
     height: 100%;
-    width: 100%;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
     overflow: hidden;
 }
 
 .app-container {
-    display: flex; /* This creates the side-by-side look */
+    display: flex; /* Side-by-side layout */
     height: 100vh;
     width: 100vw;
 }
 
-/* SIDEBAR - LEFT */
+/* --- SIDEBAR STYLES --- */
 .sidebar {
-    width: 300px;
+    width: 320px;
     background-color: #0d4d2b;
     color: white;
     display: flex;
     flex-direction: column;
-    padding: 40px 20px;
     justify-content: space-between;
+    padding: 30px 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-.logo-circle {
-    width: 60px; height: 60px;
-    background: #ffcc00; color: #0d4d2b;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px; font-weight: bold; margin-bottom: 20px;
-}
+.school-logo { width: 100px; margin-bottom: 15px; border-radius: 50%; }
+.school-name { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+.school-branch { font-size: 12px; opacity: 0.8; letter-spacing: 1px; margin-bottom: 30px; }
 
 .info-item {
-    background: rgba(255,255,255,0.1);
-    padding: 10px; border-radius: 8px; margin-bottom: 10px;
-    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 10px;
 }
 
-/* CHAT - RIGHT */
-.chat-main {
+.info-item label { display: block; font-size: 10px; color: #ffcc00; font-weight: bold; }
+.info-item p { font-size: 14px; }
+
+.sidebar-bottom { text-align: center; font-size: 11px; opacity: 0.6; }
+
+/* --- CHAT STYLES --- */
+.chat-area {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: #f4f7f6;
+    background-color: #f4f7f6;
 }
 
 .chat-box {
-    flex: 1; padding: 30px;
+    flex: 1;
+    padding: 25px;
     overflow-y: auto;
-    display: flex; flex-direction: column; gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.message { max-width: 70%; padding: 12px 16px; border-radius: 15px; }
+.message { max-width: 75%; padding: 12px 16px; border-radius: 15px; line-height: 1.5; }
 .bot { align-self: flex-start; background: white; color: black; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .user { align-self: flex-end; background: #0d4d2b; color: white; }
 
-.input-container {
-    padding: 20px; background: white;
+.input-section {
+    padding: 20px;
+    background: white;
     border-top: 1px solid #ddd;
-    display: flex; gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
-input { flex: 1; padding: 12px; border-radius: 25px; border: 1px solid #ccc; outline: none; }
-button { padding: 0 25px; background: #0d4d2b; color: white; border: none; border-radius: 25px; cursor: pointer; }
+input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 25px; outline: none; }
+button { background: #0d4d2b; color: white; border: none; padding: 0 25px; border-radius: 25px; cursor: pointer; font-weight: bold; }
