@@ -1,26 +1,37 @@
-* { box-sizing: border-box; } /* Crucial for full-screen */
-
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    overflow: hidden; /* Prevents double scrollbars */
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.chat-container {
+.app-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Forces sidebar and chat to be side-by-side */
     height: 100vh;
-    width: 100vw;
+    width: 100%;
 }
 
-.chat-header {
+/* SIDEBAR STYLES */
+.sidebar {
+    width: 300px; /* Fixed width for the left side */
     background-color: #0d4d2b;
     color: white;
-    padding: 20px;
-    text-align: center;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo-area h2 { margin: 0; font-size: 28px; }
+.logo-area h3 { margin: 0; font-weight: 300; opacity: 0.8; }
+
+/* CHAT CONTENT STYLES */
+.main-content {
+    flex: 1; /* Takes up all remaining space on the right */
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
 }
 
 .chat-box {
@@ -30,24 +41,39 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    background-color: #f9f9f9;
 }
 
 .message {
     max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 15px;
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.5;
 }
 
-.bot { align-self: flex-start; background-color: #e4e6eb; }
+.bot { align-self: flex-start; background-color: #e4e6eb; color: black; }
 .user { align-self: flex-end; background-color: #0d4d2b; color: white; }
 
 .input-area {
-    padding: 15px;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #ddd;
     display: flex;
     gap: 10px;
-    border-top: 1px solid #ddd;
 }
 
-input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 25px; }
-button { background-color: #0d4d2b; color: white; border: none; padding: 0 20px; border-radius: 25px; cursor: pointer; }
+input {
+    flex: 1;
+    padding: 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    padding: 0 25px;
+    background-color: #0d4d2b;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
