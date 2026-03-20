@@ -2,17 +2,24 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
+// Your Vercel Backend URL
 const VERCEL_API_URL = 'https://lphs-chatbot-backend.vercel.app/api/chatbot'; 
 
-sendBtn.addEventListener('click', async () => {
+// MAIN SEND FUNCTION
+async function handleSendMessage() {
     const text = userInput.value.trim();
+    
+    // Prevent sending empty messages
     if (!text) return;
 
-    // 1. Add User Message (Right Side)
+    // 1. Add User Message (Aligned Right via CSS 'user' class)
     appendMessage(text, 'user');
+    
+    // Clear input and keep focus so the user can type again immediately
     userInput.value = '';
+    userInput.focus();
 
-    // 2. Add "Thinking..." (Left Side) and save its ID
+    // 2. Add "Thinking..." bubble (Aligned Left via CSS 'bot' class)
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -24,39 +31,58 @@ sendBtn.addEventListener('click', async () => {
         
         const data = await response.json();
         
-        // 3. Update THAT SPECIFIC "Thinking" bubble with the bot's reply
+        // 3. Replace "Thinking..." with the actual AI reply
+        // This ensures the reply stays in the same LEFT-aligned bubble
         updateMessage(loadingId, data.reply);
 
     } catch (error) {
-        updateMessage(loadingId, "Connection error. Please try again!");
+        console.error("Fetch error:", error);
+        updateMessage(loadingId, "Connection error. Please check your internet or the Vercel logs!");
+    }
+}
+
+// CLICK EVENT
+sendBtn.addEventListener('click', handleSendMessage);
+
+// ENTER KEY EVENT
+userInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevents a new line in the input
+        handleSendMessage();
     }
 });
 
+// HELPER: CREATE NEW MESSAGE BUBBLE
 function appendMessage(text, sender) {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('message', sender);
-    const id = 'msg-' + Date.now(); // Unique ID
+    
+    // Generate a unique ID so we can find this specific bubble later
+    const id = 'msg-' + Date.now() + Math.floor(Math.random() * 1000);
     msgDiv.id = id;
+    
     msgDiv.textContent = text;
     chatBox.appendChild(msgDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    // Smooth scroll to the newest message
+    scrollToBottom();
+    
     return id;
 }
 
+// HELPER: UPDATE AN EXISTING BUBBLE (For the "Thinking..." effect)
 function updateMessage(id, newText) {
     const element = document.getElementById(id);
     if (element) {
         element.textContent = newText;
-        chatBox.scrollTop = chatBox.scrollHeight;
+        scrollToBottom();
     }
 }
 
-userInput.addEventListener("keydown", function(event) {
-    // Number 13 is the "Enter" key on the keyboard
-    if (event.key === "Enter") {
-        // Cancel the default action, if needed
-        event.preventDefault();
-        // Trigger the button element with a click
-        sendBtn.click();
-    }
-});
+// HELPER: SCROLL TO BOTTOM
+function scrollToBottom() {
+    chatBox.scrollTo({
+        top: chatBox.scrollHeight,
+        behavior: 'smooth'
+    });
+}

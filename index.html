@@ -1,24 +1,52 @@
-<div class="app-wrapper">
-    <header class="sidebar">
-        <div class="logo-area">
-            <h2>LPNHS</h2>
-            <h3>Main Assistant</h3>
-        </div>
-        <p>Located near the historic Bamboo Organ Church</p>
-        <div class="sidebar-footer">
-            <p>v1.0.2 - 2026</p>
-        </div>
-    </header>
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <img src="https://i.ibb.co/p6V0z0P/lpnhs-logo.png" alt="LPNHS Logo" class="school-logo">
+            <h1 class="school-name">Las Piñas National High School</h1>
+            <h2 class="school-branch">— MAIN —</h2>
+            
+            <div class="divider"></div>
 
-    <main class="main-content">
-        <div id="chat-box" class="chat-box">
-            <div class="message bot">
-                Hello! I am the official AI assistant for Las Piñas National High School - Main.
+            <div class="info-card">
+                <span class="icon">📚</span>
+                <div class="info-text">
+                    <label>DEPARTMENT</label>
+                    <p>Student Support</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🏫</span>
+                <div class="info-text">
+                    <label>CAMPUS</label>
+                    <p>Main Building</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <span class="icon">🕒</span>
+                <div class="info-text">
+                    <label>SUPPORT HOURS</label>
+                    <p>Mon–Fri, 7am–5pm</p>
+                </div>
             </div>
         </div>
 
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type your message here...">
+        <div class="sidebar-footer">
+            <p>"Excellence in Service, Quality in Education"</p>
+            <p>© 2026 LPNHS-Main</p>
+        </div>
+    </aside>
+
+    <main class="chat-main">
+        <div id="chat-box" class="chat-box">
+            <div class="message bot">
+                Hello! I am the official AI assistant for Las Piñas National High School - Main. I'm here to help with enrollment, strands, or any campus questions.
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message here..." autofocus>
             <button id="send-btn">Send</button>
         </div>
     </main>

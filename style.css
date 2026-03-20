@@ -1,79 +1,82 @@
+* { box-sizing: border-box; }
+
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #f4f7f6;
 }
 
-.app-wrapper {
-    display: flex;
-    flex-direction: row; /* Forces sidebar and chat to be side-by-side */
+.app-container {
+    display: flex; /* This creates the side-by-side layout */
     height: 100vh;
-    width: 100%;
+    width: 100vw;
 }
 
-/* SIDEBAR STYLES */
+/* --- SIDEBAR --- */
 .sidebar {
-    width: 300px; /* Fixed width for the left side */
+    width: 350px;
     background-color: #0d4d2b;
     color: white;
-    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 40px 25px;
+    text-align: center;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
 }
 
-.logo-area h2 { margin: 0; font-size: 28px; }
-.logo-area h3 { margin: 0; font-weight: 300; opacity: 0.8; }
+.school-logo { width: 120px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+.school-name { font-size: 22px; margin: 0; font-family: 'Georgia', serif; }
+.school-branch { font-size: 14px; letter-spacing: 2px; opacity: 0.8; margin-top: 5px; }
+.divider { height: 1px; background: rgba(255,255,255,0.2); margin: 30px 0; }
 
-/* CHAT CONTENT STYLES */
-.main-content {
-    flex: 1; /* Takes up all remaining space on the right */
+.info-card {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.info-text label { display: block; font-size: 11px; font-weight: bold; color: #ffcc00; letter-spacing: 1px; }
+.info-text p { margin: 0; font-size: 15px; }
+.icon { font-size: 24px; margin-right: 15px; }
+
+.sidebar-footer { font-size: 12px; font-style: italic; opacity: 0.7; }
+
+/* --- CHAT AREA --- */
+.chat-main {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background: #ffffff;
 }
 
 .chat-box {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.message {
-    max-width: 80%;
-    padding: 12px 18px;
-    border-radius: 20px;
-    line-height: 1.5;
-}
+.message { max-width: 75%; padding: 15px 20px; border-radius: 20px; line-height: 1.5; font-size: 16px; }
+.bot { align-self: flex-start; background: #f0f2f5; color: #1c1e21; border-bottom-left-radius: 5px; }
+.user { align-self: flex-end; background: #0d4d2b; color: white; border-bottom-right-radius: 5px; }
 
-.bot { align-self: flex-start; background-color: #e4e6eb; color: black; }
-.user { align-self: flex-end; background-color: #0d4d2b; color: white; }
-
-.input-area {
-    padding: 20px;
-    background: white;
-    border-top: 1px solid #ddd;
+.input-container {
+    padding: 25px;
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    background: white;
+    border-top: 1px solid #eee;
 }
 
-input {
-    flex: 1;
-    padding: 15px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-button {
-    padding: 0 25px;
-    background-color: #0d4d2b;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-}
+input { flex: 1; padding: 15px; border-radius: 30px; border: 1px solid #ddd; font-size: 16px; outline: none; }
+button { padding: 0 30px; background: #0d4d2b; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
