@@ -1,100 +1,97 @@
-* {
-    box-sizing: border-box;
+/* 1. Make the background fill the whole window */
+body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: #f4f7f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.chat-container {
+    height: 100%;
     width: 100%;
-    max-width: 450px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+}
+
+/* 2. Make the container fill the entire screen */
+.chat-container {
     display: flex;
     flex-direction: column;
-    height: 80vh;
-    overflow: hidden;
+    width: 100%;
+    height: 100vh; /* Viewport Height */
+    background-color: #fff;
 }
 
+/* 3. The Header stays at the top */
 .chat-header {
-    background-color: #0f4c2e; /* A classic school green */
+    background-color: #0d4d2b; /* LPNHS Green */
     color: white;
     padding: 20px;
     text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.chat-header p {
-    font-size: 12px;
-    opacity: 0.8;
-    margin-top: 5px;
-}
+.chat-header h2 { margin: 0; font-size: 24px; }
+.chat-header p { margin: 5px 0 0; opacity: 0.9; }
 
+/* 4. The Chat Box fills all the middle space */
 .chat-box {
-    flex: 1;
+    flex: 1; /* This makes it grow to fill the screen */
     padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('https://www.transparenttextures.com/patterns/cubes.png');
 }
 
+/* 5. Message Styling */
 .message {
-    max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    line-height: 1.4;
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 15px;
+    line-height: 1.5;
+    word-wrap: break-word;
 }
 
-.message.bot {
-    background-color: #e9ecef;
-    color: #333;
+.bot {
     align-self: flex-start;
-    border-bottom-left-radius: 5px;
+    background-color: #e4e6eb;
+    color: #050505;
+    border-bottom-left-radius: 2px;
 }
 
-.message.user {
-    background-color: #0f4c2e;
-    color: white;
+.user {
     align-self: flex-end;
-    border-bottom-right-radius: 5px;
+    background-color: #0d4d2b;
+    color: white;
+    border-bottom-right-radius: 2px;
 }
 
+/* 6. The Input Area stays stuck at the bottom */
 .input-area {
-    display: flex;
-    padding: 15px;
-    background: #fff;
+    padding: 20px;
+    background-color: #fff;
     border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
 }
 
-#user-input {
+input[type="text"] {
     flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
+    padding: 15px;
+    border: 1px solid #ccc;
     border-radius: 25px;
     outline: none;
+    font-size: 16px;
 }
 
-#send-btn {
-    background-color: #0f4c2e;
+button {
+    padding: 0 25px;
+    background-color: #0d4d2b;
     color: white;
     border: none;
-    padding: 0 20px;
-    margin-left: 10px;
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
+    transition: background 0.3s;
 }
 
-#send-btn:hover {
-    background-color: #0b3620;
+button:hover {
+    background-color: #0a3a21;
 }
