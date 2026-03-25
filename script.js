@@ -8,9 +8,11 @@ async function handleSend() {
     const text = userInput.value.trim();
     if (!text) return;
 
+    // 1. User Message (Always RIGHT)
     appendMessage(text, 'user');
     userInput.value = '';
     
+    // 2. Bot "Thinking" (Always LEFT)
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -21,10 +23,13 @@ async function handleSend() {
         });
         
         const data = await response.json();
+        
+        // 3. Update the SAME "Thinking" bubble (Stays LEFT)
+        // This ensures it never "jumps" to the right side
         updateMessage(loadingId, data.reply);
 
     } catch (error) {
-        updateMessage(loadingId, "Connection error. Please check your internet or your API key settings!");
+        updateMessage(loadingId, "Connection error. Please try again!");
     }
 }
 
@@ -39,7 +44,7 @@ userInput.addEventListener("keydown", (e) => {
 
 function appendMessage(text, sender) {
     const div = document.createElement('div');
-    div.classList.add('message', sender);
+    div.classList.add('message', sender); // 'bot' = left/grey, 'user' = right/green
     const id = 'msg-' + Date.now();
     div.id = id;
     div.textContent = text;
