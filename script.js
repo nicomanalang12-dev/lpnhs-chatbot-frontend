@@ -2,7 +2,7 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
-const VERCEL_API_URL = 'https://lphs-chatbot-backend.vercel.app/api/chatbot'; 
+const VERCEL_API_URL = 'https://lphs-chatbot-backend.vercel.app/api/chatbot';
 
 async function handleSend() {
     const text = userInput.value.trim();
@@ -10,7 +10,7 @@ async function handleSend() {
 
     appendMessage(text, 'user');
     userInput.value = '';
-    
+
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -19,7 +19,7 @@ async function handleSend() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
         });
-        
+
         const data = await response.json();
         updateMessage(loadingId, data.reply);
 
@@ -38,10 +38,52 @@ userInput.addEventListener("keydown", (e) => {
 });
 
 function parseMarkdown(text) {
-    return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br>');
+    const lines = text.split('\n');
+    let html = '';
+    let inOrderedList = false;
+    let inUnorderedList = false;
+
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+
+        // Inline formatting
+        line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        line = line.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+        // Numbered list: "1. item"
+        const orderedMatch = line.match(/^\d+\.\s+(.*)/);
+        // Bullet list: "- item" or "* item"
+        const unorderedMatch = line.match(/^[-*]\s+(.*)/);
+
+        if (orderedMatch) {
+            if (!inOrderedList) {
+                if (inUnorderedList) { html += '</ul>'; inUnorderedList = false; }
+                html += '<ol>';
+                inOrderedList = true;
+            }
+            html += '<li>' + orderedMatch[1] + '</li>';
+        } else if (unorderedMatch) {
+            if (!inUnorderedList) {
+                if (inOrderedList) { html += '</ol>'; inOrderedList = false; }
+                html += '<ul>';
+                inUnorderedList = true;
+            }
+            html += '<li>' + unorderedMatch[1] + '</li>';
+        } else {
+            if (inOrderedList) { html += '</ol>'; inOrderedList = false; }
+            if (inUnorderedList) { html += '</ul>'; inUnorderedList = false; }
+            if (line.trim() === '') {
+                html += '<br>';
+            } else {
+                html += '<p>' + line + '</p>';
+            }
+        }
+    }
+
+    if (inOrderedList) html += '</ol>';
+    if (inUnorderedList) html += '</ul>';
+
+    return html;
 }
 
 function appendMessage(text, sender) {

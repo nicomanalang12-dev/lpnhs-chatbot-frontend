@@ -138,3 +138,16 @@ body, html {
 
 input { flex: 1; padding: 12px 20px; border: 1px solid #ccc; border-radius: 25px; outline: none; font-size: 16px; }
 button { background: #0d4d2b; color: white; border: none; padding: 0 25px; border-radius: 25px; cursor: pointer; font-weight: bold; }
+/* LIST FORMATTING IN BUBBLES */
+.message ol,
+.message ul {
+    margin: 6px 0 6px 20px;
+    padding: 0;
+}
+.message li {
+    margin-bottom: 4px;
+    line-height: 1.5;
+}
+.message p {
+    margin: 4px 0;
+}
