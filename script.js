@@ -8,9 +8,12 @@ async function handleSend() {
     const text = userInput.value.trim();
     if (!text) return;
 
+    // 1. User Message (Always RIGHT/Green)
     appendMessage(text, 'user');
     userInput.value = '';
 
+    // 2. Bot "Thinking" (Always LEFT/White)
+    // We use a stronger ID to prevent any clash
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -21,25 +24,23 @@ async function handleSend() {
         });
 
         const data = await response.json();
+        
+        // 3. THE FIX: Update the bubble and FORCE it to stay on the left
         updateMessage(loadingId, data.reply);
 
     } catch (error) {
-        updateMessage(loadingId, "Connection error. Please check your internet or your API key settings!");
+        updateMessage(loadingId, "Connection error. Please check your internet or API settings!");
     }
 }
 
 sendBtn.addEventListener('click', handleSend);
 userInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        handleSend();
-    }
+    if (e.key === "Enter") { e.preventDefault(); handleSend(); }
 });
 
 function parseMarkdown(text) {
     let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
     const lines = html.split('\n');
     let finalHtml = '';
     lines.forEach(line => {
@@ -60,7 +61,9 @@ function appendMessage(text, sender) {
 
     const div = document.createElement('div');
     div.classList.add('message', sender);
-    const id = 'msg-' + Date.now() + Math.floor(Math.random() * 1000);
+    
+    // Safety: Generate a truly unique ID
+    const id = 'msg-' + Math.random().toString(36).substr(2, 9);
     div.id = id;
     div.innerHTML = parseMarkdown(text);
 
@@ -75,14 +78,16 @@ function updateMessage(id, newText) {
     if (el) {
         el.innerHTML = parseMarkdown(newText);
         
-        // --- THE LOCK ---
-        // Force the bubble and wrapper to stay on the BOT side
+        // --- THE "IRON-CLAD" LOCK ---
+        // Manually strip 'user' classes and force 'bot' alignment
         el.classList.remove('user');
         el.classList.add('bot');
         
         const wrapper = el.parentElement;
-        wrapper.classList.remove('user-wrapper');
-        wrapper.classList.add('bot-wrapper');
+        if (wrapper) {
+            wrapper.classList.remove('user-wrapper');
+            wrapper.classList.add('bot-wrapper');
+        }
         
         chatBox.scrollTop = chatBox.scrollHeight;
     }
