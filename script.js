@@ -2,17 +2,19 @@ const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
+// Replace with your actual Vercel backend URL
 const VERCEL_API_URL = 'https://lphs-chatbot-backend.vercel.app/api/chatbot'; 
 
 async function handleSend() {
     const text = userInput.value.trim();
     if (!text) return;
 
-    // 1. User Message (Always RIGHT/Green)
+    // 1. Add User Message (Always Green/Right)
     appendMessage(text, 'user');
     userInput.value = '';
     
-    // 2. Bot "Thinking" (Always LEFT/White)
+    // 2. Add "Thinking..." placeholder (Always White/Left)
+    // We save the ID to update this SPECIFIC bubble later
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -24,17 +26,19 @@ async function handleSend() {
         
         const data = await response.json();
         
-        // 3. THE FIX: Replace the "Thinking..." text with the real answer
-        // This ensures it stays in the WHITE bubble on the LEFT
+        // 3. THE FIX: Update the placeholder with the AI's reply
         updateMessage(loadingId, data.reply);
 
     } catch (error) {
-        updateMessage(loadingId, "Oops! I'm having trouble connecting to the school server. Please try again.");
+        console.error("Error:", error);
+        updateMessage(loadingId, "Connection error. Please check your internet and try again.");
     }
 }
 
+// Click listener
 sendBtn.addEventListener('click', handleSend);
 
+// Enter key listener
 userInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         e.preventDefault();
@@ -44,15 +48,17 @@ userInput.addEventListener("keydown", (e) => {
 
 function appendMessage(text, sender) {
     const div = document.createElement('div');
-    // Forces the class to be either 'bot' (left) or 'user' (right)
+    
+    // Assigns 'message' class and the sender class ('bot' or 'user')
     div.classList.add('message', sender); 
-    const id = 'msg-' + Date.now() + Math.random().toString(36).substr(2, 9);
+    
+    // Unique ID for tracking
+    const id = 'msg-' + Date.now() + Math.floor(Math.random() * 1000);
     div.id = id;
     div.textContent = text;
-    chatBox.appendChild(div);
     
-    // Smooth scroll to bottom
-    chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
     return id;
 }
 
@@ -60,8 +66,12 @@ function updateMessage(id, newText) {
     const el = document.getElementById(id);
     if (el) {
         el.textContent = newText;
-        // Keep the 'bot' class so it stays on the left
+        
+        // --- HARD ALIGNMENT FIX ---
+        // This ensures that even during an update, the bubble stays on the LEFT
+        el.classList.remove('user');
         el.classList.add('bot'); 
-        chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
+        
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
