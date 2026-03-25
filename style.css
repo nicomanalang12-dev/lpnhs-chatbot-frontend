@@ -1,9 +1,8 @@
-/* RESET & BASE */
+/* RESET */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body, html {
-    height: 100%;
-    width: 100%;
+    height: 100%; width: 100%;
     font-family: 'Segoe UI', Tahoma, sans-serif;
     overflow: hidden;
 }
@@ -11,11 +10,10 @@ body, html {
 /* MASTER CONTAINER */
 .app-container {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    height: 100vh; width: 100vw;
 }
 
-/* --- SIDEBAR (LEFT) --- */
+/* SIDEBAR (LEFT) */
 .sidebar {
     width: 320px;
     background-color: #0d4d2b;
@@ -27,14 +25,12 @@ body, html {
     flex-shrink: 0;
     align-items: center;
     text-align: center;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-.school-logo { width: 150px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.2)); }
-.school-name { font-size: 19px; font-weight: bold; margin-bottom: 5px; }
+.school-logo { width: 150px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+.school-name { font-size: 19px; font-weight: bold; margin-bottom: 5px; line-height: 1.2; }
 .school-branch { font-size: 12px; opacity: 0.8; letter-spacing: 2px; margin-bottom: 30px; }
 
-/* INFO CARDS */
 .info-list { width: 100%; }
 .info-item {
     display: flex; align-items: center; gap: 12px;
@@ -44,7 +40,7 @@ body, html {
 .info-content label { display: block; font-size: 10px; font-weight: bold; color: #ffcc00; }
 .info-content p { font-size: 14px; margin: 0; }
 
-/* --- CHAT AREA (RIGHT) --- */
+/* CHAT AREA (RIGHT) */
 .chat-area {
     flex: 1;
     display: flex;
@@ -58,11 +54,11 @@ body, html {
     padding: 25px;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; /* Stacks bubbles vertically */
+    flex-direction: column;
     gap: 15px;
 }
 
-/* BUBBLE ALIGNMENT */
+/* BUBBLE LOGIC */
 .message { 
     max-width: 75%; 
     padding: 12px 18px; 
@@ -71,17 +67,18 @@ body, html {
     font-size: 15px; 
 }
 
-/* THE FIX: align-self determines the side */
+/* FORCE LEFT */
 .bot { 
-    align-self: flex-start; /* LEFT SIDE */
+    align-self: flex-start !important; 
     background: white; 
     color: black; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     border-bottom-left-radius: 2px;
 }
 
+/* FORCE RIGHT */
 .user { 
-    align-self: flex-end; /* RIGHT SIDE */
+    align-self: flex-end !important; 
     background: #0d4d2b; 
     color: white; 
     border-bottom-right-radius: 2px;
@@ -89,11 +86,9 @@ body, html {
 
 /* INPUT SECTION */
 .input-section {
-    padding: 20px;
-    background: white;
+    padding: 20px; background: white;
     border-top: 1px solid #ddd;
-    display: flex;
-    gap: 10px;
+    display: flex; gap: 10px;
 }
 
 input { flex: 1; padding: 12px 20px; border: 1px solid #ccc; border-radius: 25px; outline: none; font-size: 16px; }

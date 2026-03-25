@@ -9,12 +9,12 @@ async function handleSend() {
     const text = userInput.value.trim();
     if (!text) return;
 
-    // 1. Add User Message (Always Green/Right)
+    // 1. Add User Message (Always RIGHT/Green)
     appendMessage(text, 'user');
     userInput.value = '';
     
-    // 2. Add "Thinking..." placeholder (Always White/Left)
-    // We save the ID to update this SPECIFIC bubble later
+    // 2. Add "Thinking..." bubble (Always LEFT/White)
+    // We save this ID so we can replace the text later
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -26,19 +26,18 @@ async function handleSend() {
         
         const data = await response.json();
         
-        // 3. THE FIX: Update the placeholder with the AI's reply
+        // 3. THE CRITICAL FIX: Update the specific "Thinking" bubble
+        // This ensures NO NEW BUBBLE is created on the wrong side
         updateMessage(loadingId, data.reply);
 
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Fetch error:", error);
         updateMessage(loadingId, "Connection error. Please check your internet and try again.");
     }
 }
 
-// Click listener
+// Click and Enter listeners
 sendBtn.addEventListener('click', handleSend);
-
-// Enter key listener
 userInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         e.preventDefault();
@@ -49,10 +48,10 @@ userInput.addEventListener("keydown", (e) => {
 function appendMessage(text, sender) {
     const div = document.createElement('div');
     
-    // Assigns 'message' class and the sender class ('bot' or 'user')
-    div.classList.add('message', sender); 
+    // Safety Lock: Ensure only 'bot' or 'user' classes are added
+    div.className = 'message ' + sender; 
     
-    // Unique ID for tracking
+    // Create a unique ID for this specific bubble
     const id = 'msg-' + Date.now() + Math.floor(Math.random() * 1000);
     div.id = id;
     div.textContent = text;
@@ -67,8 +66,8 @@ function updateMessage(id, newText) {
     if (el) {
         el.textContent = newText;
         
-        // --- HARD ALIGNMENT FIX ---
-        // This ensures that even during an update, the bubble stays on the LEFT
+        // RE-FORCE BOT STYLING:
+        // This strips away any accidental 'user' styling and forces it to stay LEFT
         el.classList.remove('user');
         el.classList.add('bot'); 
         
