@@ -7,17 +7,22 @@ const VERCEL_API_URL = 'https://lphs-chatbot-backend.vercel.app/api/chatbot';
 async function handleSend() {
     const text = userInput.value.trim();
     if (!text) return;
+
     appendMessage(text, 'user');
     userInput.value = '';
+
     const loadingId = appendMessage('Thinking...', 'bot');
+
     try {
         const response = await fetch(VERCEL_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
         });
+
         const data = await response.json();
         updateMessage(loadingId, data.reply);
+
     } catch (error) {
         updateMessage(loadingId, "Connection error. Please check your internet or your API key settings!");
     }
@@ -25,45 +30,40 @@ async function handleSend() {
 
 sendBtn.addEventListener('click', handleSend);
 userInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") { e.preventDefault(); handleSend(); }
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSend();
+    }
 });
 
 function parseMarkdown(text) {
-    const lines = text.split('\n');
-    let html = '';
-    let inOrderedList = false;
-    let inUnorderedList = false;
-    for (let i = 0; i < lines.length; i++) {
-        let line = lines[i];
-        line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        line = line.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        const orderedMatch = line.match(/^\d+\.\s+(.*)/);
-        const unorderedMatch = line.match(/^[-*]\s+(.*)/);
-        if (orderedMatch) {
-            if (!inOrderedList) { if (inUnorderedList) { html += '</ul>'; inUnorderedList = false; } html += '<ol>'; inOrderedList = true; }
-            html += '<li>' + orderedMatch[1] + '</li>';
-        } else if (unorderedMatch) {
-            if (!inUnorderedList) { if (inOrderedList) { html += '</ol>'; inOrderedList = false; } html += '<ul>'; inUnorderedList = true; }
-            html += '<li>' + unorderedMatch[1] + '</li>';
+    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    const lines = html.split('\n');
+    let finalHtml = '';
+    lines.forEach(line => {
+        if (line.match(/^\d+\.\s+/)) {
+            finalHtml += `<li>${line.replace(/^\d+\.\s+/, '')}</li>`;
+        } else if (line.trim() === '') {
+            finalHtml += '<br>';
         } else {
-            if (inOrderedList) { html += '</ol>'; inOrderedList = false; }
-            if (inUnorderedList) { html += '</ul>'; inUnorderedList = false; }
-            html += line.trim() === '' ? '<br>' : '<p>' + line + '</p>';
+            finalHtml += `<p>${line}</p>`;
         }
-    }
-    if (inOrderedList) html += '</ol>';
-    if (inUnorderedList) html += '</ul>';
-    return html;
+    });
+    return finalHtml;
 }
 
 function appendMessage(text, sender) {
     const wrapper = document.createElement('div');
     wrapper.classList.add('message-wrapper', sender + '-wrapper');
+
     const div = document.createElement('div');
     div.classList.add('message', sender);
-    const id = 'msg-' + Date.now();
+    const id = 'msg-' + Date.now() + Math.floor(Math.random() * 1000);
     div.id = id;
     div.innerHTML = parseMarkdown(text);
+
     wrapper.appendChild(div);
     chatBox.appendChild(wrapper);
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -72,5 +72,18 @@ function appendMessage(text, sender) {
 
 function updateMessage(id, newText) {
     const el = document.getElementById(id);
-    if (el) { el.innerHTML = parseMarkdown(newText); chatBox.scrollTop = chatBox.scrollHeight; }
+    if (el) {
+        el.innerHTML = parseMarkdown(newText);
+        
+        // --- THE LOCK ---
+        // Force the bubble and wrapper to stay on the BOT side
+        el.classList.remove('user');
+        el.classList.add('bot');
+        
+        const wrapper = el.parentElement;
+        wrapper.classList.remove('user-wrapper');
+        wrapper.classList.add('bot-wrapper');
+        
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 }
