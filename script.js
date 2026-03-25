@@ -8,11 +8,11 @@ async function handleSend() {
     const text = userInput.value.trim();
     if (!text) return;
 
-    // 1. User Message (Always RIGHT)
+    // 1. User Message (Always RIGHT/Green)
     appendMessage(text, 'user');
     userInput.value = '';
     
-    // 2. Bot "Thinking" (Always LEFT)
+    // 2. Bot "Thinking" (Always LEFT/White)
     const loadingId = appendMessage('Thinking...', 'bot');
 
     try {
@@ -24,12 +24,12 @@ async function handleSend() {
         
         const data = await response.json();
         
-        // 3. Update the SAME "Thinking" bubble (Stays LEFT)
-        // This ensures it never "jumps" to the right side
+        // 3. THE FIX: Replace the "Thinking..." text with the real answer
+        // This ensures it stays in the WHITE bubble on the LEFT
         updateMessage(loadingId, data.reply);
 
     } catch (error) {
-        updateMessage(loadingId, "Connection error. Please try again!");
+        updateMessage(loadingId, "Oops! I'm having trouble connecting to the school server. Please try again.");
     }
 }
 
@@ -44,12 +44,15 @@ userInput.addEventListener("keydown", (e) => {
 
 function appendMessage(text, sender) {
     const div = document.createElement('div');
-    div.classList.add('message', sender); // 'bot' = left/grey, 'user' = right/green
-    const id = 'msg-' + Date.now();
+    // Forces the class to be either 'bot' (left) or 'user' (right)
+    div.classList.add('message', sender); 
+    const id = 'msg-' + Date.now() + Math.random().toString(36).substr(2, 9);
     div.id = id;
     div.textContent = text;
     chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    // Smooth scroll to bottom
+    chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
     return id;
 }
 
@@ -57,6 +60,8 @@ function updateMessage(id, newText) {
     const el = document.getElementById(id);
     if (el) {
         el.textContent = newText;
-        chatBox.scrollTop = chatBox.scrollHeight;
+        // Keep the 'bot' class so it stays on the left
+        el.classList.add('bot'); 
+        chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
     }
 }
